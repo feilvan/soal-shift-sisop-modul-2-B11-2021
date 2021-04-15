@@ -109,6 +109,11 @@ int satuA ()
     }
 }
 ```
+Membuat folder bisa menggunakan exec mkdir. Jalankan di semua proccess kecuali parent proccess yang pertama.
+```c
+char *argv[] = {"mkdir", "Fylm", NULL};
+execv("/bin/mkdir", argv);
+```
 
 #### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
 B, C, dan D saya gabung jadi satu proccess karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
