@@ -13,6 +13,7 @@
 int satuA();
 int satuAB();
 int satuBCD(int a);
+int moveFoto();
 int satuF();
 
 int main ()
@@ -181,10 +182,8 @@ int satuBCD (int a)
         else
         {
             while ((wait(&status)) > 0);
-            // char *argv[] = {"mv", "FILM/*", "Fylm",  NULL};
-            // execv("/usr/bin/mv", argv);
-            char *argv[] = {"cp", "-R", "FILM/.", "Fylm",  NULL};
-            execv("/usr/bin/cp", argv);
+            char *argv[] = {"find", ".", "-name", "*.mp4", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Fylm/", ";", NULL};
+            execv("/usr/bin/find", argv);
         }
     }
 
@@ -215,10 +214,7 @@ int satuBCD (int a)
         else
         {
             while ((wait(&status)) > 0);
-            // char *argv[] = {"mv", "FOTO/*", "Pyoto",  NULL};
-            // execv("/usr/bin/mv", argv);
-            char *argv[] = {"cp", "-R", "FOTO/.", "Pyoto",  NULL};
-            execv("/usr/bin/cp", argv);
+            moveFoto();
         }
     }
 
@@ -249,11 +245,43 @@ int satuBCD (int a)
         else
         {
             while ((wait(&status)) > 0);
-            // char *argv[] = {"mv", "MUSIK/*", "Musyik",  NULL};
-            // execv("/usr/bin/mv", argv);
-            char *argv[] = {"cp", "-R", "MUSIK/.", "Musyik",  NULL};
-            execv("/usr/bin/cp", argv);
+            char *argv[] = {"find", ".", "-name", "*.mp3", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Musyik/", ";", NULL};
+            execv("/usr/bin/find", argv);
         }
+    }
+}
+
+int moveFoto ()
+{
+    pid_t child_id;
+    int status;
+    child_id = fork();
+
+    if (child_id < 0)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    if (child_id == 0)
+    {
+        pid_t child_id_2;
+        int status_2;
+        child_id_2 = fork();
+        if (child_id_2 == 0)
+        {
+            char *argv[] = {"find", ".", "-name", "*.jpg", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
+            execv("/usr/bin/find", argv);
+        }
+        else
+        {
+            char *argv[] = {"find", ".", "-name", "*.jpeg", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
+            execv("/usr/bin/find", argv);
+        }
+    }
+    else
+    {
+        char *argv[] = {"find", ".", "-name", "*.png", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
+        execv("/usr/bin/find", argv);
     }
 }
 
