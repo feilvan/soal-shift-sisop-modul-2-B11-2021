@@ -146,9 +146,9 @@ int satuBCD (int a)
     char fileMusik[] = {"Musik_for_Stevany.zip"};
     char fileFilm[] = {"Film_for_Stevany.zip"};
     char fileFoto[] = {"Foto_for_Stevany.zip"};
-    char urlMusik[] = {"https://github.com/feilvan/sisop-general/raw/main/modul2/stevany/Musik_for_Stevany.zip"};
-    char urlFilm[] = {"https://github.com/feilvan/sisop-general/raw/main/modul2/stevany/Film_for_Stevany.zip"};
-    char urlFoto[] = {"https://github.com/feilvan/sisop-general/raw/main/modul2/stevany/Foto_for_Stevany.zip"};
+    char urlMusik[] = {"https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download"};
+    char urlFilm[] = {"https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download"};
+    char urlFoto[] = {"https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download"};
 
     pid_t child_id;
     int status;
