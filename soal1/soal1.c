@@ -42,22 +42,16 @@ int main ()
         chdir("/home/xa/modul2/soal1/");
         pid_t child_id;
         int status;
-        if (time(NULL) == 1617960120)
-        {
+        if (time(NULL) == 1617960120){
             child_id = fork();
         }
-
-        if (child_id < 0)
-        {
+        if (child_id < 0){
             exit(EXIT_FAILURE);
         }
-
-        if (child_id == 0)
-        {
+        if (child_id == 0){
             satuA();
         }
-        else if (time(NULL) == 1617981720)
-        {
+        else if (time(NULL) == 1617981720){
             while ((wait(&status)) > 0);
             satuF();
         }
@@ -65,47 +59,40 @@ int main ()
     }
 }
 
-int satuA ()
-{
+int satuA (){
     pid_t child_id;
-    int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    // 1.a. Buat folder
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         pid_t child_id_2;
         child_id_2 = fork();
-        if (child_id_2 == 0)
-        {
-            pid_t child_id_3;
-            child_id_3 = fork();
-            if (child_id_3 == 0)
-            {
-                char *argv[] = {"mkdir", "Fylm", NULL};
-                execv("/bin/mkdir", argv);
-            }
-            else
-            {
-                char *argv[] = {"mkdir", "Musyik", NULL};
-                execv("/bin/mkdir", argv);
-            }
+        if (child_id_2 < 0){
+            exit(EXIT_FAILURE);
         }
-        else
-        {
+        if (child_id_2 == 0){
+            char *argv[] = {"mkdir", "Musyik", NULL};
+            execv("/bin/mkdir", argv);
+        }
+        else{
             char *argv[] = {"mkdir", "Pyoto", NULL};
             execv("/bin/mkdir", argv);
         }
     }
-    else
-    {
-        while ((wait(&status)) > 0);
-        satuAB();
+    else{
+        pid_t child_id_3;
+        child_id_3 = fork();
+        if (child_id_3 < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id_3 == 0){
+            char *argv[] = {"mkdir", "Fylm", NULL};
+            execv("/bin/mkdir", argv);
+        }
+        else{
+            satuAB();
+        }
     }
 }
 
@@ -114,29 +101,25 @@ int satuAB ()
     pid_t child_id;
     int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         pid_t child_id_2;
         int status_2;
         child_id_2 = fork();
-        if (child_id_2 == 0)
-        {
+        if (child_id_2 < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id_2 == 0){
             satuBCD(2);
         }
-        else
-        {
+        else{
             while ((wait(&status_2)) > 0);
             satuBCD(1);
         }
     }
-    else
-    {
+    else{
         while ((wait(&status)) > 0);
         satuBCD(0);
     }
@@ -154,96 +137,85 @@ int satuBCD (int a)
     pid_t child_id;
     int status;
     child_id = fork();
-
-    if (a == 0)
-    {
-        if (child_id < 0)
-        {
+    if (a == 0){
+        if (child_id < 0){
             exit(EXIT_FAILURE);
         }
-
-        if (child_id == 0)
-        {
+        if (child_id == 0){
             pid_t child_id_2;
             int status_2;
             child_id_2 = fork();
-            if (child_id_2 == 0)
-            {
+            if (child_id_2 < 0){
+                exit(EXIT_FAILURE);
+            }
+            if (child_id_2 == 0){
                 char *argv[] = {"wget", "-q", "-nc", "--no-check-certificate", urlFilm, "-O", fileFilm, NULL};
                 execv("/usr/bin/wget", argv);
             }
-            else
-            {
+            else{
                 while ((wait(&status_2)) > 0);
                 char *argv[] = {"unzip", fileFilm, NULL};
                 execv("/usr/bin/unzip", argv);
             }
         }
-        else
-        {
+        else{
             while ((wait(&status)) > 0);
             char *argv[] = {"find", ".", "-name", "*.mp4", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Fylm/", ";", NULL};
             execv("/usr/bin/find", argv);
         }
     }
 
-    if (a == 1)
-    {
-        if (child_id < 0)
-        {
+    if (a == 1){
+        if (child_id < 0){
             exit(EXIT_FAILURE);
         }
-
-        if (child_id == 0)
-        {
+        if (child_id == 0){
             pid_t child_id_2;
             int status_2;
             child_id_2 = fork();
-            if (child_id_2 == 0)
-            {
+            if (child_id_2 < 0){
+                exit(EXIT_FAILURE);
+            }
+            if (child_id_2 == 0){
                 char *argv[] = {"wget", "-q", "-nc", "--no-check-certificate", urlFoto, "-O", fileFoto, NULL};
                 execv("/usr/bin/wget", argv);
             }
-            else
-            {
+            else{
                 while ((wait(&status_2)) > 0);
                 char *argv[] = {"unzip", fileFoto, NULL};
                 execv("/usr/bin/unzip", argv);
             }
         }
-        else
-        {
+        else{
             while ((wait(&status)) > 0);
             moveFoto();
         }
     }
 
-    if (a == 2)
-    {
-        if (child_id < 0)
-        {
+    if (a == 2){
+        if (child_id < 0){
             exit(EXIT_FAILURE);
         }
-
         if (child_id == 0)
         {
             pid_t child_id_2;
             int status_2;
             child_id_2 = fork();
+            if (child_id_2 < 0){
+                exit(EXIT_FAILURE);
+            }
             if (child_id_2 == 0)
             {
                 char *argv[] = {"wget", "-q", "-nc", "--no-check-certificate", urlMusik, "-O", fileMusik, NULL};
                 execv("/usr/bin/wget", argv);
             }
-            else
-            {
+            else{
                 while ((wait(&status_2)) > 0);
                 char *argv[] = {"unzip", fileMusik, NULL};
                 execv("/usr/bin/unzip", argv);
             }
         }
-        else
-        {
+        else{
             while ((wait(&status)) > 0);
             char *argv[] = {"find", ".", "-name", "*.mp3", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Musyik/", ";", NULL};
             execv("/usr/bin/find", argv);
@@ -256,30 +228,26 @@ int moveFoto ()
     pid_t child_id;
     int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         pid_t child_id_2;
         int status_2;
         child_id_2 = fork();
-        if (child_id_2 == 0)
-        {
+        if (child_id_2 < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id_2 == 0){
             char *argv[] = {"find", ".", "-name", "*.jpg", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
             execv("/usr/bin/find", argv);
         }
-        else
-        {
+        else{
             char *argv[] = {"find", ".", "-name", "*.jpeg", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
             execv("/usr/bin/find", argv);
         }
     }
-    else
-    {
+    else{
         char *argv[] = {"find", ".", "-name", "*.png", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Pyoto/", ";", NULL};
         execv("/usr/bin/find", argv);
     }
@@ -290,19 +258,14 @@ int satuF ()
     pid_t child_id;
     int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         char *argv[] = {"zip", "-r", "Lopyu_Stevany", "Fylm/", "Musyik/", "Pyoto/", NULL};
         execv("/usr/bin/zip", argv);
     }
-    else
-    {
+    else{
         while ((wait(&status)) > 0);
         char *argv[] = {"rm", "-r", "FILM", "MUSIK", "FOTO", "Fylm", "Musyik", "Pyoto", NULL};
         execv("/usr/bin/rm", argv);
