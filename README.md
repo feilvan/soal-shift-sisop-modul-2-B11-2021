@@ -155,3 +155,8 @@ int satuAB ()
 }
 ```
 satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan dalam memproses file film, foto, dan musik.
+<p>-- belum selesai --</p>
+
+## Soal 2
+
+## Soal 3
