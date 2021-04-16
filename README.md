@@ -39,86 +39,74 @@ int main ()
 ```
 
 #### 1.a. Buat folder "Musyik" untuk mp3, "Fylm" untuk mp4, dan "Pyoto" untuk jpg.
-Karena nantinya di 1.e. diminta agar program bisa menjalankan task pada waktu tertentu, maka disini saya buat fork. Child akan menjalankan 1.a dan parent akan menjalankan 1.f.
+Karena nantinya di 1.e. diminta agar program bisa menjalankan task pada waktu tertentu, maka disini saya buat fork. Child akan menjalankan 1.a sampai 1.d dan parent akan menjalankan 1.f.
 ```c
         chdir("/home/xa/modul2/soal1/");
         pid_t child_id;
         int status;
-        if (time(NULL) == 1617960120) // untuk 1.e. akan dijelaskan di penjelasan nomor tersebut
-        {
+        if (time(NULL) == 1617960120){ // untuk 1.e. akan dijelaskan di penjelasan nomor tersebut
             child_id = fork();
         }
-
-        if (child_id < 0)
-        {
+        if (child_id < 0){
             exit(EXIT_FAILURE);
         }
-
-        if (child_id == 0)
-        {
+        if (child_id == 0){
             satuA();
         }
-        else if (time(NULL) == 1617981720) // untuk 1.f. akan dijelaskan di penjelasan nomor tersebut
-        {
+        else if (time(NULL) == 1617981720){ // untuk 1.f. akan dijelaskan di penjelasan nomor tersebut
             while ((wait(&status)) > 0);
             satuF();
         }
 ```
-Untuk membuat tiga folder tersebut saya melakukan fork, lalu pada child proccessnya di-fork lagi, dan pada child proccessnya juga di-fork lagi (total tiga kali fork). Dengan ini saya bisa melakukan empat proccess: tiga untuk membuat folder, dan satu untuk lanjut ke step berikutnya
+Untuk membuat tiga folder tersebut saya melakukan fork, lalu di-fork lagi pada child dan parentnya. Dengan ini program bisa melakukan empat proccess: tiga untuk membuat folder, dan satu untuk lanjut ke step berikutnya
 ```c
-int satuA ()
-{
+int satuA (){
     pid_t child_id;
-    int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         pid_t child_id_2;
         child_id_2 = fork();
-        if (child_id_2 == 0)
-        {
-            pid_t child_id_3;
-            child_id_3 = fork();
-            if (child_id_3 == 0)
-            {
-                char *argv[] = {"mkdir", "Fylm", NULL};
-                execv("/bin/mkdir", argv);
-            }
-            else
-            {
-                char *argv[] = {"mkdir", "Musyik", NULL};
-                execv("/bin/mkdir", argv);
-            }
+        if (child_id_2 < 0){
+            exit(EXIT_FAILURE);
         }
-        else
-        {
+        if (child_id_2 == 0){
+            char *argv[] = {"mkdir", "Musyik", NULL};
+            execv("/bin/mkdir", argv);
+        }
+        else{
             char *argv[] = {"mkdir", "Pyoto", NULL};
             execv("/bin/mkdir", argv);
         }
     }
-    else
-    {
-        while ((wait(&status)) > 0);
-        satuAB(); // lanjut ke step berikutnya
+    else{
+        pid_t child_id_3;
+        child_id_3 = fork();
+        if (child_id_3 < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id_3 == 0){
+            char *argv[] = {"mkdir", "Fylm", NULL};
+            execv("/bin/mkdir", argv);
+        }
+        else{
+            satuAB();
+        }
     }
 }
 ```
-Membuat folder bisa menggunakan exec mkdir. Jalankan di semua proccess kecuali parent proccess yang pertama.
+Folder dibuat menggunakan exec mkdir. Jalankan di tiga process pertama.
 ```c
 char *argv[] = {"mkdir", "Fylm", NULL};
 execv("/bin/mkdir", argv);
 ```
 
 #### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
-B, C, dan D saya gabung jadi satu proccess karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
+B, C, dan D saya gabung jadi satu process karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
 <p>
-Pada fungsi satuAB saya lakukan fork dua kali sehingga menghasilkan tiga proccess. Tiga proccess ini nantinya akan melakukan download, ekstrak, dan pindah secara berurut.</p>
+Pada fungsi satuAB saya lakukan fork lagi di child process sehingga menghasilkan tiga process. Tiga process ini nantinya akan melakukan download, ekstrak, dan pindah secara berurut.</p>
 
 ```c
 int satuAB ()
@@ -126,36 +114,125 @@ int satuAB ()
     pid_t child_id;
     int status;
     child_id = fork();
-
-    if (child_id < 0)
-    {
+    if (child_id < 0){
         exit(EXIT_FAILURE);
     }
-
-    if (child_id == 0)
-    {
+    if (child_id == 0){
         pid_t child_id_2;
         int status_2;
         child_id_2 = fork();
-        if (child_id_2 == 0)
-        {
+        if (child_id_2 < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id_2 == 0){
             satuBCD(2);
         }
-        else
-        {
+        else{
             while ((wait(&status_2)) > 0);
             satuBCD(1);
         }
     }
-    else
-    {
+    else{
         while ((wait(&status)) > 0);
         satuBCD(0);
     }
 }
 ```
-satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan dalam memproses file film, foto, dan musik.
-<p>-- belum selesai --</p>
+Fungsi satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan dalam memproses file film, foto, dan musik.
+<p>Untuk nama file dan url disimpan di char agar pada penulisan argument tidak terlalu panjang</p>
+
+```c
+    char fileMusik[] = {"Musik_for_Stevany.zip"};
+    char fileFilm[] = {"Film_for_Stevany.zip"};
+    char fileFoto[] = {"Foto_for_Stevany.zip"};
+    char urlMusik[] = {"https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download"};
+    char urlFilm[] = {"https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download"};
+    char urlFoto[] = {"https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download"};
+```
+<p>Agar download, ekstrak, dan pemindahan berjalan berurutan, dibuat fork lalu pada childnya dikukan fork lagi sehingga ada tiga process (untuk download, ekstrak, dan pindah), kemudian diberi wait pada parent2nya.</p>
+
+```c
+    pid_t child_id;
+    int status;
+    child_id = fork();
+    if (a == 0){
+        if (child_id < 0){
+            exit(EXIT_FAILURE);
+        }
+        if (child_id == 0){
+            pid_t child_id_2;
+            int status_2;
+            child_id_2 = fork();
+            if (child_id_2 < 0){
+                exit(EXIT_FAILURE);
+            }
+            if (child_id_2 == 0){
+                char *argv[] = {"wget", "-q", "-nc", "--no-check-certificate", urlFilm, "-O", fileFilm, NULL};
+                execv("/usr/bin/wget", argv);
+            }
+            else{
+                while ((wait(&status_2)) > 0);
+                char *argv[] = {"unzip", fileFilm, NULL};
+                execv("/usr/bin/unzip", argv);
+            }
+        }
+        else{
+            while ((wait(&status)) > 0);
+            char *argv[] = {"find", ".", "-name", "*.mp4", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Fylm/", ";", NULL};
+            execv("/usr/bin/find", argv);
+        }
+    }
+```
+<p>Download</p>
+
+```c
+char *argv[] = {"wget", "-q", "-nc", "--no-check-certificate", urlFilm, "-O", fileFilm, NULL};
+execv("/usr/bin/wget", argv);
+```
+<p>Extract</p>
+
+```c
+char *argv[] = {"unzip", fileFilm, NULL};
+execv("/usr/bin/unzip", argv);
+```
+<p>Pindah (dengan find format file lalu pindahkan ke folder tujuan)</p>
+
+```c
+char *argv[] = {"find", ".", "-name", "*.mp4", "-exec", "mv", "{}", "/home/xa/modul2/soal1/Fylm/", ";", NULL};
+execv("/usr/bin/find", argv);
+```
+<p>Ulangi process yang sama untuk foto dan musik. Namun untuk foto perlu ada penyesuaian pada saat memindahkan file karena ternyata ada tiga format foto. Jadi perlu dilakukan find tiga kali untuk setiap format foto.</p>
+
+#### 1.e. Jalankan 1.a - 1.d secara otomatis 6 jam sebelum ulang tahun Stevany
+Pada penjelasan 1.a terdapat code dibawah ini
+```c
+        if (time(NULL) == 1617960120){
+            child_id = fork();
+        }
+```
+Jika waktu telah masuk 6 jam sebelum ulang tahun maka akan dilakukan fork. 1617960120 adalah unix epoch time untuk 9 April 2021 16.22. Jadi program belum melakukan fork sebelum waktu tersebut. Tepat pada waktu tersebut program akan melakukan fork lalu pada child process dilakukan fungsi satuA (untuk mengerjakan 1.a sampai 1.d).
+
+#### 1.f. Pada waktu ulang tahun folder akan dizip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete (sehingga hanya menyisakan .zip)
+Pada parent process hasil dari fork sebelumnya, dilakukan hal yang sama seperti 1.e. Program akan menunggu sampai waktu ulang tahun untuk menjalankan langkah selanjutnya
+```c
+        else if (time(NULL) == 1617981720){
+            while ((wait(&status)) > 0);
+            satuF();
+        }
+```
+Pada satuF dilakukan fork lalu pada child processnya melakukan zip, sedangkan pada parent processnya melakukan penghapusan folder
+<p>Zip</p>
+
+```c
+char *argv[] = {"zip", "-r", "Lopyu_Stevany", "Fylm/", "Musyik/", "Pyoto/", NULL};
+execv("/usr/bin/zip", argv);
+```
+<p>Hapus folder</p>
+
+```c
+char *argv[] = {"rm", "-r", "FILM", "MUSIK", "FOTO", "Fylm", "Musyik", "Pyoto", NULL};
+execv("/usr/bin/rm", argv);
+```
 
 ## Soal 2
 
