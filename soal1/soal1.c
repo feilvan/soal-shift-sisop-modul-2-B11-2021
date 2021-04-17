@@ -66,33 +66,11 @@ int satuA (){
         exit(EXIT_FAILURE);
     }
     if (child_id == 0){
-        pid_t child_id_2;
-        child_id_2 = fork();
-        if (child_id_2 < 0){
-            exit(EXIT_FAILURE);
-        }
-        if (child_id_2 == 0){
-            char *argv[] = {"mkdir", "Musyik", NULL};
-            execv("/bin/mkdir", argv);
-        }
-        else{
-            char *argv[] = {"mkdir", "Pyoto", NULL};
-            execv("/bin/mkdir", argv);
-        }
+        char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
+        execv("/bin/mkdir", argv);
     }
     else{
-        pid_t child_id_3;
-        child_id_3 = fork();
-        if (child_id_3 < 0){
-            exit(EXIT_FAILURE);
-        }
-        if (child_id_3 == 0){
-            char *argv[] = {"mkdir", "Fylm", NULL};
-            execv("/bin/mkdir", argv);
-        }
-        else{
-            satuAB();
-        }
+        satuAB();
     }
 }
 
