@@ -58,7 +58,7 @@ Karena nantinya di 1.e. diminta agar program bisa menjalankan task pada waktu te
             satuF();
         }
 ```
-Untuk membuat tiga folder tersebut saya melakukan fork, lalu di-fork lagi pada child dan parentnya. Dengan ini program bisa melakukan empat proccess: tiga untuk membuat folder, dan satu untuk lanjut ke step berikutnya
+Di satuA saya fork lalu child processnya membuat folder, sedangkan parent processnya lanjut ke tahap selanjutnya
 ```c
 int satuA (){
     pid_t child_id;
@@ -67,57 +67,10 @@ int satuA (){
         exit(EXIT_FAILURE);
     }
     if (child_id == 0){
-        pid_t child_id_2;
-        child_id_2 = fork();
-        if (child_id_2 < 0){
-            exit(EXIT_FAILURE);
-        }
-        if (child_id_2 == 0){
-            char *argv[] = {"mkdir", "Musyik", NULL};
-            execv("/bin/mkdir", argv);
-        }
-        else{
-            char *argv[] = {"mkdir", "Pyoto", NULL};
-            execv("/bin/mkdir", argv);
-        }
+        char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
+        execv("/bin/mkdir", argv);
     }
     else{
-        pid_t child_id_3;
-        child_id_3 = fork();
-        if (child_id_3 < 0){
-            exit(EXIT_FAILURE);
-        }
-        if (child_id_3 == 0){
-            char *argv[] = {"mkdir", "Fylm", NULL};
-            execv("/bin/mkdir", argv);
-        }
-        else{
-            satuAB();
-        }
-    }
-}
-```
-Folder dibuat menggunakan exec mkdir. Jalankan di tiga process pertama.
-```c
-char *argv[] = {"mkdir", "Fylm", NULL};
-execv("/bin/mkdir", argv);
-```
-
-#### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
-B, C, dan D saya gabung jadi satu process karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
-<p>
-Pada fungsi satuAB saya lakukan fork lagi di child process sehingga menghasilkan tiga process. Tiga process ini nantinya akan melakukan download, ekstrak, dan pindah secara berurut.</p>
-
-```c
-int satuAB ()
-{
-    pid_t child_id;
-    int status;
-    child_id = fork();
-    if (child_id < 0){
-        exit(EXIT_FAILURE);
-    }
-    if (child_id == 0){
         pid_t child_id_2;
         int status_2;
         child_id_2 = fork();
@@ -125,20 +78,37 @@ int satuAB ()
             exit(EXIT_FAILURE);
         }
         if (child_id_2 == 0){
-            satuBCD(2);
+            pid_t child_id_3;
+            int status_3;
+            child_id_3 = fork();
+            if (child_id_3 < 0){
+                exit(EXIT_FAILURE);
+            }
+            if (child_id_3 == 0){
+                satuBCD(0);
+            }
+            else{
+                while ((wait(&status_3)) > 0);
+                satuBCD(1);
+            }
         }
         else{
             while ((wait(&status_2)) > 0);
-            satuBCD(1);
+            satuBCD(2);
         }
-    }
-    else{
-        while ((wait(&status)) > 0);
-        satuBCD(0);
     }
 }
 ```
-Fungsi satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan dalam memproses file film, foto, dan musik.
+Membuat folder
+```c
+char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
+execv("/bin/mkdir", argv);
+```
+Di parent process dilakukan fork dua kali agar bisa menjalankan tiga process. Tiap process ini akan melakukan satuBCD dimana disini akan download, ekstrak, dan memindahkan file (soal b, c, dan d)
+
+#### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
+B, C, dan D saya gabung jadi satu process karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
+<p>Fungsi satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan antara file film, foto, dan musik.</p>
 <p>Untuk nama file dan url disimpan di char agar pada penulisan argument tidak terlalu panjang</p>
 
 ```c
