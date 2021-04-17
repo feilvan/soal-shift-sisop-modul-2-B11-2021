@@ -11,7 +11,6 @@
 #include <time.h>
 
 int satuA();
-int satuAB();
 int satuBCD(int a);
 int moveFoto();
 int satuF();
@@ -70,19 +69,6 @@ int satuA (){
         execv("/bin/mkdir", argv);
     }
     else{
-        satuAB();
-    }
-}
-
-int satuAB ()
-{
-    pid_t child_id;
-    int status;
-    child_id = fork();
-    if (child_id < 0){
-        exit(EXIT_FAILURE);
-    }
-    if (child_id == 0){
         pid_t child_id_2;
         int status_2;
         child_id_2 = fork();
@@ -90,16 +76,24 @@ int satuAB ()
             exit(EXIT_FAILURE);
         }
         if (child_id_2 == 0){
-            satuBCD(2);
+            pid_t child_id_3;
+            int status_3;
+            child_id_3 = fork();
+            if (child_id_3 < 0){
+                exit(EXIT_FAILURE);
+            }
+            if (child_id_3 == 0){
+                satuBCD(0);
+            }
+            else{
+                while ((wait(&status_3)) > 0);
+                satuBCD(1);
+            }
         }
         else{
             while ((wait(&status_2)) > 0);
-            satuBCD(1);
+            satuBCD(2);
         }
-    }
-    else{
-        while ((wait(&status)) > 0);
-        satuBCD(0);
     }
 }
 
