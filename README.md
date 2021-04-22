@@ -99,11 +99,19 @@ int satuA (){
     }
 }
 ```
+
 Membuat folder
 ```c
 char *argv[] = {"mkdir", "Musyik", "Pyoto", "Fylm", NULL};
 execv("/bin/mkdir", argv);
 ```
+
+![a](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-22%2015-27-17.png)
+
+soal1 akan berjalan pada background
+
+![a](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-22%2015-27-40.png)
+
 Di parent process dilakukan fork dua kali agar bisa menjalankan tiga process. Tiap process ini akan melakukan satuBCD dimana disini akan download, ekstrak, dan memindahkan file (soal b, c, dan d)
 
 #### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
@@ -182,6 +190,8 @@ Pada penjelasan 1.a terdapat code dibawah ini
 ```
 Jika waktu telah masuk 6 jam sebelum ulang tahun maka akan dilakukan fork. 1617960120 adalah unix epoch time untuk 9 April 2021 16.22. Jadi program belum melakukan fork sebelum waktu tersebut. Tepat pada waktu tersebut program akan melakukan fork lalu pada child process dilakukan fungsi satuA (untuk mengerjakan 1.a sampai 1.d).
 
+![bcde](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-09%2016-22-47.png)
+
 #### 1.f. Pada waktu ulang tahun folder akan dizip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete (sehingga hanya menyisakan .zip)
 Pada parent process hasil dari fork sebelumnya, dilakukan hal yang sama seperti 1.e. Program akan menunggu sampai waktu ulang tahun untuk menjalankan langkah selanjutnya
 ```c
@@ -203,6 +213,8 @@ execv("/usr/bin/zip", argv);
 char *argv[] = {"rm", "-r", "FILM", "MUSIK", "FOTO", "Fylm", "Musyik", "Pyoto", NULL};
 execv("/usr/bin/rm", argv);
 ```
+
+![f](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-09%2022-22-17.png)
 
 ## Soal 2
 
