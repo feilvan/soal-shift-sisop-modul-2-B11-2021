@@ -121,8 +121,6 @@ void createKeterangan(char *folder, char *namaHewan, char *umurHewan){
     
     umur = umurHewan;
     
-    }
-    
     char buf1[10000];
     snprintf(buf1, sizeof buf1, "petshop/%s/keterangan.txt", folder);
    
