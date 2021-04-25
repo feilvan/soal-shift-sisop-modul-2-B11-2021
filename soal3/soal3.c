@@ -85,8 +85,8 @@ int main(int argc, char **argv)
 
     // 3E. Membuat mode Killer menggunakan bash
     char killername[100];
-    strcpy(killername, "/home/akmal/Akmal/killer.sh"); // killername = /home/akmal/Akmal/killer.sh
-    FILE *killer = fopen(killername, "w"); // buat file dan buka killer.sh di /home/akmal/Akmal/ (sesuai killername)(w = create empty file)
+    strcpy(killername, "/home/cliffton/Documents/Modul/Modul 2/killer.sh"); // killername = /home/cliffton/Documents/Modul/Modul 2/killer.sh
+    FILE *killer = fopen(killername, "w"); // buat file dan buka killer.sh di /home/cliffton/Documents/Modul/Modul 2/ (sesuai killername)(w = create empty file)
 
     if (strcmp(argv[1], "-z") == 0)
     { // jika ada argumen -z maka akan kill semua proses
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     // masuk program utama
     while (1)
     {
-        char foldername[100] = "/home/akmal/Akmal/"; // direktori utama
+        char foldername[100] = "/home/cliffton/Documents/Modul/Modul 2/"; // direktori utama
         char strtime[100];
         time_t t = time(NULL);
         struct tm *tm = localtime(&t);
