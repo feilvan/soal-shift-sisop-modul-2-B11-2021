@@ -314,7 +314,7 @@ void createFolder(char *nameFolder){
 ```
 Fungsi ini merupakan fungsi untuk membuat folder-foldernya. Di sini dilakukan `sprintf`untuk melakukan printf nama folder dan lokasinya ke `buf1`, lalu di exec untuk membuat foldernya.
 
-###2c dan 2d
+### 2c dan 2d
 Pada soal 2c dan 2d kita diminta untuk memidahkan file-file di `petshop` ke folder sesuai jenis hewan masing-masing, lalu mengganti nama filenya sesuai dengan nama perliharaannya. Namun pada soal nomor 2d, file yang berisikan lebih dari satu hewan, dipindahkan ke folder-folder sesuai dengan hewan-hewan yang ada di dalam file tersebut.
 ```c
  char *info[2][3];
@@ -359,7 +359,7 @@ void deleteFiles(char *namaFiles){
 ```
 Setelah dicopy, lalu file semula akan di delete menggunakan fungsi `deleteFiles` ini. Jadi program akan menuju ke directory, yaitu folder `petshop`, lalu melakukan exec untuk mengahpus setiap file di situ.
 
-###2e
+### 2e
 Pada soal 2e, kita diminta untuk membuat file `keterangan.txt` yang berisikan nama dan umur dari setiap peliharaan yang ada di folder tersebut.
 ```c
 void createKeterangan(char *folder, char *namaHewan, char *umurHewan){
