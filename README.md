@@ -6,7 +6,7 @@ Anggota kelompok :
 * 05111940000107 - Sabrina Lydia Simanjuntak
 
 ## Soal 1
-#### 1. Sebelum ke 1a buat daemon dahulu agar program berjalan di background
+#### Sebelum ke 1a buat daemon dahulu agar program berjalan di background
 Untuk pembuatan daemon sama seperti di materi modul2
 ```c
 int main ()
@@ -38,7 +38,8 @@ int main ()
 }
 ```
 
-#### 1.a. Buat folder "Musyik" untuk mp3, "Fylm" untuk mp4, dan "Pyoto" untuk jpg.
+### 1.a
+#### Buat folder "Musyik" untuk mp3, "Fylm" untuk mp4, dan "Pyoto" untuk jpg.
 Karena nantinya di 1.e. diminta agar program bisa menjalankan task pada waktu tertentu, maka disini saya buat fork. Child akan menjalankan 1.a sampai 1.d dan parent akan menjalankan 1.f.
 ```c
         chdir("/home/xa/modul2/soal1/");
@@ -114,7 +115,8 @@ soal1 akan berjalan pada background
 
 Di parent process dilakukan fork dua kali agar bisa menjalankan tiga process. Tiap process ini akan melakukan satuBCD dimana disini akan download, ekstrak, dan memindahkan file (soal b, c, dan d)
 
-#### 1.b,c,d. Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
+### 1.b,c,d. 
+#### Download zip untuk film, musik, dan foto dari link yang tersedia; lalu ekstrak zip yang telah didownload; kemudian pindahkan ke folder yang telah dibuat di 1.a
 B, C, dan D saya gabung jadi satu process karena berdasarkan preview yang ada pada soal setelah zip terdownload langsung diekstrak dan dipindah sebelum download zip selanjutnya. Jika B, C, dan D dipisah maka program akan mendownload semua zip terlebih dahulu, lalu mengekstrak semuanya, dan memindahkannya ke folder. Langkah ini tidak seperti yang ada pada preview.
 <p>Fungsi satuBCD akan mendownload, ekstrak, lalu memindahkan file ke folder yang telah dibuat di 1.a. Disini saya bagi menjadi tiga kondisi untuk memisahkan antara file film, foto, dan musik.</p>
 <p>Untuk nama file dan url disimpan di char agar pada penulisan argument tidak terlalu panjang</p>
@@ -181,7 +183,8 @@ execv("/usr/bin/find", argv);
 ```
 <p>Ulangi process yang sama untuk foto dan musik. Namun untuk foto perlu ada penyesuaian pada saat memindahkan file karena ternyata ada tiga format foto. Jadi perlu dilakukan find tiga kali untuk setiap format foto.</p>
 
-#### 1.e. Jalankan 1.a - 1.d secara otomatis 6 jam sebelum ulang tahun Stevany
+### 1.e.
+#### Jalankan 1.a - 1.d secara otomatis 6 jam sebelum ulang tahun Stevany
 Pada penjelasan 1.a terdapat code dibawah ini
 ```c
         if (time(NULL) == 1617960120){
@@ -192,7 +195,8 @@ Jika waktu telah masuk 6 jam sebelum ulang tahun maka akan dilakukan fork. 16179
 
 ![bcde](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-09%2016-22-47.png)
 
-#### 1.f. Pada waktu ulang tahun folder akan dizip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete (sehingga hanya menyisakan .zip)
+### 1.f.
+#### Pada waktu ulang tahun folder akan dizip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete (sehingga hanya menyisakan .zip)
 Pada parent process hasil dari fork sebelumnya, dilakukan hal yang sama seperti 1.e. Program akan menunggu sampai waktu ulang tahun untuk menjalankan langkah selanjutnya
 ```c
         else if (time(NULL) == 1617981720){
