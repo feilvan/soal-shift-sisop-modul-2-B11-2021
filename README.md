@@ -731,3 +731,7 @@ else // main process
 ![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-58-46.png)
 
 ![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-59-18.png)
+
+### Kendala
+Kendala yang dialami saat mengerjakan sebelum revisi adalah masih kebingungan dengan materi modul 2. Namun saat minggu revisi sudah mulai paham dan dapat mengerjakan soal nomor 3.
+
