@@ -197,6 +197,6 @@ int main(int argc, char **argv)
                 }
             }
         }
-        sleep(40); // jalankan setiap 40 detik
+        sleep(40); // jalankan setiap 40 detik (soal 3A)
     }
 }
