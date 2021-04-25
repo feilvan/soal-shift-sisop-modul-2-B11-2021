@@ -119,8 +119,8 @@ int main(int argc, char **argv)
         char strtime[100];
         time_t t = time(NULL);
         struct tm *tm = localtime(&t);
-        strftime(strtime, sizeof(foldername), "%Y-%m-%d_%H:%M:%S", tm); // string timestamp sesuai format di soal
-        strcat(foldername, strtime); // foldername = foldername awal + timestamp
+        strftime(strtime, sizeof(foldername), "%Y-%m-%d_%H:%M:%S", tm); // string timestamp sesuai format di soal (dipakai di 3A)
+        strcat(foldername, strtime); // foldername = foldername awal + timestamp (dipakai di 3A)
 
         // inisialisasi fork
         pid_t pid1 = fork();
