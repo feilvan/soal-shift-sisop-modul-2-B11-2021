@@ -220,6 +220,9 @@ execv("/usr/bin/rm", argv);
 
 ![f](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots/Screenshot%20from%202021-04-09%2022-22-17.png)
 
+Kendala soal 1:
+- Pemindahan semua file didalam folder hasil ekstrak tidak bisa menggunakan exec mv dengan source misalkan ```FILM/*```. Solusinya saya menggunakan find lalu mv untuk memindahkan file dengan ekstensi tertentu.
+
 ## Soal 2
 
 ### 2a
