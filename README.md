@@ -224,35 +224,29 @@ Kendala soal 1:
 - Pemindahan semua file didalam folder hasil ekstrak tidak bisa menggunakan exec mv dengan source misalkan ```FILM/*```. Solusinya saya menggunakan find lalu mv untuk memindahkan file dengan ekstensi tertentu.
 
 ## Soal 2
+Pada soal nomor 2 kita diminta untuk men-download file bernama `pets.zip`. Untuk memproses file ini, kami menggunakan fork, exec, dan wait.
 
 ### 2a
-Pada soal 2a, kita diminta untuk blabla 
+Pada soal 2a, kita diminta untuk mengekstrak file `pets.zip` ke folder `/home/[user]/modul2/petshop` dan hanya memproses file-file yang diperlukan saja
 
 ```c
-int main()
-{
-    char path[100];
-
-        pid_t child_id;
-        int status=0;
-
-        child_id = fork();
-
-        if (child_id < 0) {
-            exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-        }
-
         if (child_id == 0) {
             char *argv[] = {"unzip", "pets.zip", "*.jpg", "-d", "petshop", NULL};
             execv("/bin/unzip", argv);
-        } else {
+        } 
+```
+Jadi di sini dilakukan exec untuk melakukan unzip file `pets.zip`, lalu `*.jpg` digunakan untuk memproses file yang berformat jpg saja (file penting). `-d` digunakan untuk mengekstrak file tersebut di folder yang bernama `petshop`
+
+### 2b
+Pada soal 2b, kita diminta untuk membuat folder sesuai dengan setiap jenis peliharaan yang ada di file zip.
+```c
+	else {
             while(wait(&status) > 0);
             listFilesRecursively("petshop");
         }
-    return 0;
-}
 ```
-
+Di sini kami memanggil fungsi yang bernama `listFilesRecursively` dengan input berupa nama folder tempat file-file tadi di ekstrak yaitu `petshop`
+```c
 void listFilesRecursively(char *basePath)
 {
     char path[1000];
@@ -304,7 +298,9 @@ void listFilesRecursively(char *basePath)
 
     closedir(dir);
 }
-
+```
+Fungsi ini merupakan template yang ada di modul 2 yang kami modifikasi. Di sini, kami menggunakan `strtok` untuk membagi nama file menjadi beberapa bagian, untuk mengambil data yang sesuai dengan yang dibutuhkan untuk proses selanjutnya. Lalu, data-data tersebut akan dimasukkan ke two dimensional array untuk memudahkan pemisahan data dari file yang berisi dua hewan di dalamnya, yaitu `info[0][data]` untuk hewan pertama dan `info[1][data]` untuk hewan kedua. Lalu disini dipanggilah fungsi `createFolder`
+```c
 void createFolder(char *nameFolder){
     int status = 0;
     if(fork()==0){
@@ -315,7 +311,27 @@ void createFolder(char *nameFolder){
     }
     while(wait(&status)>0);
 }
+```
+Fungsi ini merupakan fungsi untuk membuat folder-foldernya. Di sini dilakukan `sprintf`untuk melakukan printf nama folder dan lokasinya ke `buf1`, lalu di exec untuk membuat foldernya.
 
+###2c dan 2d
+Pada soal 2c dan 2d kita diminta untuk memidahkan file-file di `petshop` ke folder sesuai jenis hewan masing-masing, lalu mengganti nama filenya sesuai dengan nama perliharaannya. Namun pada soal nomor 2d, file yang berisikan lebih dari satu hewan, dipindahkan ke folder-folder sesuai dengan hewan-hewan yang ada di dalam file tersebut.
+```c
+ char *info[2][3];
+            int banyak=0;
+            while(token != NULL){
+                int data = 0;
+                while(data<3){
+                    info[banyak][data] = token;
+                    token = strtok(NULL, ";_");
+                    data++;
+                }
+                banyak++;
+            }
+```
+Untuk nomor 2d kita kembali ke fungsi `listFilesRecursively` bagian ini, sepeti yang telah dijelaskan di nomor 2a. Dimana, data-data yang telah menjadi token-token akan dimasukkan ke two dimensional array untuk memudahkan pemisahan data dari file yang berisi dua hewan di dalamnya, yaitu `info[0][data]` untuk hewan pertama dan `info[1][data]` untuk hewan kedua.
+
+```c
 void copyFiles(char *namaFolder, char *nama, char *namaFile){
     int status = 0;
     char buf1[1000];
@@ -330,7 +346,9 @@ void copyFiles(char *namaFolder, char *nama, char *namaFile){
     }
     while(wait(&status)>0);
 }
-
+```
+Ini merupakan fungsi untuk meng-copy file. Jadi di sini ada 2 buah `snprintf`, dimana yang pertama untuk mengeprint nama file awal dan lokasinya ke buf1, dan yang kedua untuk mengeprint nama file baru dan lokasi barunya yang sesuai dengan foldernya ke buf2. Lalu dilakuka `exec` untuk mengcopy dari bu1 ke buf2.
+```c
 void deleteFiles(char *namaFiles){
     if(fork()==0){
         chdir("/home/sabrina/modul2/petshop");
@@ -338,14 +356,17 @@ void deleteFiles(char *namaFiles){
         execv("/bin/rm", argv);
     }
 }
+```
+Setelah dicopy, lalu file semula akan di delete menggunakan fungsi `deleteFiles` ini. Jadi program akan menuju ke directory, yaitu folder `petshop`, lalu melakukan exec untuk mengahpus setiap file di situ.
 
+###2e
+Pada soal 2e, kita diminta untuk membuat file `keterangan.txt` yang berisikan nama dan umur dari setiap peliharaan yang ada di folder tersebut.
+```c
 void createKeterangan(char *folder, char *namaHewan, char *umurHewan){
     char *umur;
     int status = 0;
     
     umur = umurHewan;
-    
-    }
     
     char buf1[10000];
     snprintf(buf1, sizeof buf1, "petshop/%s/keterangan.txt", folder);
@@ -358,6 +379,18 @@ void createKeterangan(char *folder, char *namaHewan, char *umurHewan){
     fprintf(keterangan, "\n\n");
     fclose(keterangan);    
 }
+```
+Jadi di sini dibuat fungsi `createKeterangan`, dimana dilakukan `snprintf` untuk mengeprint nama file, yaitu `keterangan.txt` beserta lokasinya, yaitu di folder yang sesuaike buf1. Lalu dilakukan `fopen` untuk membuka file buf1, dimana jika file tersebut belum ada maka akan terbuat secara otomatis. Lalu dilakukan `fprintf` untuk mengeprint nama dan umur setiap hewan di folder tersebut. 
+
+### Hasil Run
+Berikut merupakan hasil runnya. Dimana di dalam folder `petshop` terdapat folder-folder sesuai dengan jenis hewannya.
+![image](https://user-images.githubusercontent.com/83162422/115994093-cbd66100-a5ff-11eb-86f7-c5aa187d9051.png)
+
+Dan di sini, di tiap folder berisikan file-file sesuai dengan jenisnya dan juga file `keterangan.txt`.
+![image](https://user-images.githubusercontent.com/83162422/115994168-0b9d4880-a600-11eb-8b8d-65dced56ad2f.png)
+
+### Kendala
+Selama mengerjakan soal ini, kendala yang dialami ialah error dikarenakan program tidak diberi kondisi while `((wait(&status)) > 0)`. Selain itu kendala juga didapati ketika saat mengerjakan nomor 2c kami membuat fungsi seperti fungsi `listFilesRecursively` lagi, dan program malah menjadi membingungkan karena harus mengecek file sebanyak dua kali, sehingga diganti menjadi seperti yang sekarang.
 
 ## Soal 3
 
