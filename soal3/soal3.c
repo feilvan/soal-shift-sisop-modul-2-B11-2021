@@ -21,18 +21,18 @@ char caesarcipher(char *msg, int shift)
         if (word >= 'A' && word <= 'Z') // untuk huruf Uppercase
         {
             word = word + shift; // huruf saat ini dishift
-            if (word > 'Z') // jika lebih dari Z (huruf lowercase) (bisa dihapus. ini buat jaga2 kalo ada lowercase masuk sini)
+            if (word > 'Z') // jika saat shift melebihi Z
             {
-                word = word - 'Z' + 'A' - 1; // dijadikan uppercase
+                word = word - 'Z' + 'A' - 1; // shift ke awal (misal Y dishift 5 jadi D)
             }
             msg[i] = word; // setelah word dishift, dikembalikan ke kalimat awal
         }
         else if (word >= 'a' && word <= 'z') // untuk huruf lowercase
         {
             word = word + shift; // huruf saat ini dishift
-            if (word > 'z') // (bisa dihapus juga)
+            if (word > 'z') // jika saat shift melebihi z
             {
-                word = word - 'z' + 'a' - 1;
+                word = word - 'z' + 'a' - 1; // shift ke awal (misal z dishift 5 jadi e)
             }
             msg[i] = word; // setelah word dishift, dikembalikan ke kalimat awal
         }
