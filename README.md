@@ -539,3 +539,21 @@ else // main process
                     execv("/bin/rm", arg4);
                 }
 ```
+
+<p>Program dijalankan</p>
+
+![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-55-37.png)
+
+<p>Isi file zip</p>
+
+![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-55-48.png)
+
+<p>killer.sh saat argument -z. Semua proses di direktori berhenti.</p>
+
+![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-56-38.png)
+
+<p>killer.sh saat argument -x. Program utama berhenti tapi semua proses tetap berjalan sampai selesai.</p>
+
+![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-58-46.png)
+
+![3](https://raw.githubusercontent.com/feilvan/sisop-general/main/modul2/screenshots3/Screenshot%20from%202021-04-25%2016-59-18.png)
