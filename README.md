@@ -218,8 +218,9 @@ execv("/usr/bin/rm", argv);
 
 ## Soal 2
 
-## 2a ##
-Pada soal 2a
+### 2a
+Pada soal 2a, kita diminta untuk blabla 
+
 ```c
 int main()
 {
